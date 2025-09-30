@@ -1,15 +1,10 @@
 package com.seekretsanta.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.Data;
 import java.util.List;
 
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class CreateSeekretRequest {
     private String name;
     private List<ParticipantDto> participants;

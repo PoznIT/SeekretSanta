@@ -1,11 +1,9 @@
 package com.seekretsanta.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 @Entity
 @Table(name = "constraints")
 public class Constraint {
@@ -30,17 +28,12 @@ public class Constraint {
         BIDIRECTIONAL
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type", nullable = false)
-    private Type type = Type.UNIDIRECTIONAL;
-
     public Constraint() {}
 
-    public Constraint(Participant giver, Participant cannotReceive, Seekret seekret, Type type) {
+    public Constraint(Participant giver, Participant cannotReceive, Seekret seekret) {
         this.giver = giver;
         this.cannotReceive = cannotReceive;
         this.seekret = seekret;
-        this.type = type;
     }
 
 }

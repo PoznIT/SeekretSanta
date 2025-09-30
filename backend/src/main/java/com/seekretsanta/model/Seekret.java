@@ -1,20 +1,18 @@
 package com.seekretsanta.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Setter
-@Getter
+
 @Entity
 @Table(name = "seekrets")
+@Data
 public class Seekret {
-    // Getters and setters
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

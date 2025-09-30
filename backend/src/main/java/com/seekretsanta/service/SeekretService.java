@@ -48,16 +48,12 @@ public class SeekretService {
             Long giverId = participantRepository.findByEmailAndSeekretId(constraintDto.getGiverEmail(), seekret.getId()).getId();
             Long cannotReceiveId = participantRepository.findByEmailAndSeekretId(constraintDto.getCannotReceiveEmail(), seekret.getId()).getId();
             if (giverId == null || cannotReceiveId == null)
-                continue; // Skip invalid constraints
+                continue;
             Participant giver = participantRepository.findById(giverId)
                     .orElseThrow(() -> new RuntimeException("Giver not found by id"));
             Participant cannotReceive = participantRepository.findById(cannotReceiveId)
                     .orElseThrow(() -> new RuntimeException("Cannot receive participant not found by id"));
-            Constraint.Type type = Constraint.Type.UNIDIRECTIONAL;
-            if (constraintDto.getType() != null && constraintDto.getType().equalsIgnoreCase("BIDIRECTIONAL")) {
-                type = Constraint.Type.BIDIRECTIONAL;
-            }
-            Constraint constraint = new Constraint(giver, cannotReceive, seekret, type);
+            Constraint constraint = new Constraint(giver, cannotReceive, seekret);
             constraints.add(constraint);
         }
         return constraints;
@@ -187,8 +183,7 @@ public class SeekretService {
         dto.setConstraints(constraints.stream()
                 .map(c -> new ConstraintDto(
                         c.getGiver().getEmail(),
-                        c.getCannotReceive().getEmail(),
-                        c.getType().name()
+                        c.getCannotReceive().getEmail()
                 ))
                 .collect(Collectors.toList()));
 

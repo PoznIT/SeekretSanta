@@ -1,6 +1,6 @@
 services:
   database:
-    image: postgres:15-alpine
+    image: postgres:trixie@sha256:ad98a3ba6a3b5e53e9bd95afed6930d3103efc890240643a168b590bcf2e6e81
     environment:
       POSTGRES_DB: seekretsanta
       POSTGRES_USER: seekretsanta_user
@@ -11,7 +11,6 @@ services:
       - "5432:5432"
     networks:
       - seekretsanta-network
-
   backend:
     build:
       context: ./backend
@@ -19,18 +18,19 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
+      SPRING_PROFILE_ACTIVE: docker
     depends_on:
       - database
     networks:
       - seekretsanta-network
     volumes:
       - ./backend:/app
-
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8080/api
     ports:
       - "3000:3000"
     depends_on:

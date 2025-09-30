@@ -1,10 +1,16 @@
+#
+# BUILD STAGE
+#
 FROM maven:latest AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean test package
+COPY src /usr/src/app/src  
+COPY pom.xml /usr/src/app  
+RUN mvn -f /usr/src/app/pom.xml clean install package
 
-# Package stage
+#
+# PACKAGE STAGE
+#
 FROM openjdk:latest
-COPY --from=build /home/app/target/*.jar app.jar
+COPY --from=build /usr/src/app/target/seekretsanta-backend-0.0.1-SNAPSHOT.jar /usr/app/seekretsanta-backend-0.0.1-SNAPSHOT.jar
+ENV SPRING_PROFILES_ACTIVE=docker
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","app.jar"]
+CMD ["java","-jar","/usr/app/seekretsanta-backend-0.0.1-SNAPSHOT.jar"]

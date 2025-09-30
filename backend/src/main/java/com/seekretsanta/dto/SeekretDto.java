@@ -1,5 +1,6 @@
 package com.seekretsanta.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,11 +8,9 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Setter
-@Getter
+@Data
 @NoArgsConstructor
 public class SeekretDto {
-    // Getters and setters
     private Long id;
     private String name;
     private String uniqueLink;
