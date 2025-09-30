@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:8080/api';
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: process.env.BFF_API_URL
 });
 
 // Add auth token to requests

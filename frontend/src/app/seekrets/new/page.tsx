@@ -12,6 +12,7 @@ export default function NewSeekret() {
   const createSeekret = async (data: CreateSeekretRequest) => {
     const created = await seekretService.createSeekret(data);
     router.push(`/seekrets/${created.uniqueLink}`);
+    return created
   };
 
   return (

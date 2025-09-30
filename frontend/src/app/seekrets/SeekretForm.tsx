@@ -117,8 +117,7 @@ export default function SeekretForm(
         participants: validParticipants,
         constraints: constraints.map(c => ({
           giverEmail: c.giverEmail,
-          cannotReceiveEmail: c.cannotReceiveEmail,
-          type: c.type || 'UNIDIRECTIONAL'
+          cannotReceiveEmail: c.cannotReceiveEmail
         }))
       };
       console.log(request)
@@ -255,17 +254,6 @@ export default function SeekretForm(
                         <option key={i} value={p.email}>{p.name || `Participant ${i + 1}`}</option>
                       ))}
                     </select>
-                    {/* Switch for type */}
-                    <label className="flex items-center gap-2 cursor-pointer select-none">
-                      <span className="text-xs text-gray-700">
-                        {constraint.type === 'BIDIRECTIONAL' ? 'Bidirectional' : 'Unidirectional'}
-                      </span>
-                      <Switch
-                        checked={constraint.type === 'BIDIRECTIONAL'}
-                        onChange={e => updateConstraint(index, 'type', e.target.checked ? 'BIDIRECTIONAL' : 'UNIDIRECTIONAL')}
-                      />
-
-                    </label>
                     <button
                       type="button"
                       onClick={() => removeConstraint(index)}

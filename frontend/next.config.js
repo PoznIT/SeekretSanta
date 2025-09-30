@@ -1,13 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'http://localhost:8080/api/:path*',
-      },
-    ]
-  },
-}
 
-module.exports = nextConfig
+const backendApiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
+
+module.exports =  {
+  env: {
+    BFF_API_URL: backendApiUrl,
+  }
+}

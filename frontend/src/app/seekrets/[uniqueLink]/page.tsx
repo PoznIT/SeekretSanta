@@ -1,12 +1,14 @@
 'use client';
 
 import {useEffect, useState} from 'react';
-import {useParams} from 'next/navigation';
+import {useParams, useRouter} from 'next/navigation';
 import Link from 'next/link';
 import {Seekret, seekretService} from '@/lib/seekret';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
+import {authService} from "@/lib/auth";
 
 export default function SeekretView() {
+  const router = useRouter();
   const {uniqueLink} = useParams();
   const [seekret, setSeekret] = useState<Seekret | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -14,6 +16,11 @@ export default function SeekretView() {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    const currentUser = authService.getCurrentUser();
+    if (!currentUser) {
+      router.push('/auth/login');
+      return;
+    }
     if (uniqueLink) {
       loadSeekret(uniqueLink as string);
     }

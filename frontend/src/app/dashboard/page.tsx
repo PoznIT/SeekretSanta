@@ -20,7 +20,7 @@ export default function Dashboard() {
     }
 
     setUser(currentUser);
-    loadSeekrets();
+    loadSeekrets()
   }, [router]);
 
   const loadSeekrets = async () => {
