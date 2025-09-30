@@ -23,8 +23,6 @@ services:
       - database
     networks:
       - seekretsanta-network
-    volumes:
-      - ./backend:/app
   frontend:
     build:
       context: ./frontend
@@ -37,10 +35,6 @@ services:
       - backend
     networks:
       - seekretsanta-network
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-
 volumes:
   postgres_data:
 

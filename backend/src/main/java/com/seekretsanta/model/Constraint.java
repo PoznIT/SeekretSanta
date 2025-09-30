@@ -1,11 +1,15 @@
 package com.seekretsanta.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
 @Entity
 @Table(name = "constraints")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Constraint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,13 +26,6 @@ public class Constraint {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seekret_id")
     private Seekret seekret;
-
-    public enum Type {
-        UNIDIRECTIONAL,
-        BIDIRECTIONAL
-    }
-
-    public Constraint() {}
 
     public Constraint(Participant giver, Participant cannotReceive, Seekret seekret) {
         this.giver = giver;
