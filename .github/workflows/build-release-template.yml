@@ -35,7 +35,7 @@ build:
     - name: Build/Export Docker image
       uses: docker/build-push-action@v6
       with:
-        context: {{ inputs.app-name }}
+        context: {{ inputs.working-directory }}
         file: {{ inputs.app-name }}/Dockerfile
         tags: {{ inputs.app-name }}:{{ inputs.release-tag }}
         outputs: type=docker,dest=/tmp/{{ inputs.app-name }}.tar
