@@ -14,6 +14,7 @@ A modern Secret Santa web application built with Java Spring Boot, Next.js, and 
 - **Unique Links**: Share events via unique, shareable links
 - **Responsive UI**: Works on desktop and mobile devices
 
+
 ## Architecture
 
 - **Backend**: Java Spring Boot REST API
