@@ -6,6 +6,7 @@ on:
       working-directory:
         description: The working directory for the build process
         required: false
+        type: string
         default: ./
       app-name:
         description: The application name for the build
