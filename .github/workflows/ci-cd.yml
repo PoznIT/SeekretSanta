@@ -29,7 +29,6 @@ jobs:
       - name: Build/Export Docker image
         uses: docker/build-push-action@v6
         with:
-          context: .
           file: ./Dockerfile
           tags: seekretsanta-backend:latest
           outputs: type=docker,dest=/tmp/seekretsanta-backend.tar
@@ -39,4 +38,4 @@ jobs:
         with:
           name: docker-image
           path: /tmp/seekretsanta-backend.tar
-          retention-days: 1  # Keep for 1 day only
+          retention-days: 1
