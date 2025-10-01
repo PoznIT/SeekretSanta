@@ -7,17 +7,17 @@ on:
     branches: [ "main" ]
 
 jobs:
-  #frontend:
-  #  runs-on: ubuntu-24.04
-  #  steps:
-  #    - uses: actions/checkout@v4
-  #    - name: Build docker
-  #      run: |
-  #        cd frontend
-  #        docker build . --file Dockerfile --tag seekretsanta-frontend:$(date +%s)
+  frontend:
+    uses: ./.github/workflows/build-release-template.yml
+    with:
+      working-directory: ./frontend
+      app-name: seekretsanta-frontend
+      release-tag: ${{ github.sha }}
+      runner: ubuntu-24.04
   backend:
-    uses: ./github/workflows/build-release-template.yml
+    uses: ./.github/workflows/build-release-template.yml
     with:
       working-directory: ./backend
       app-name: seekretsanta-backend
       release-tag: ${{ github.sha }}
+      runner: ubuntu-24.04

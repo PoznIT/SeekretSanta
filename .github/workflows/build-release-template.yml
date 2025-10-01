@@ -15,9 +15,14 @@ on:
         description: The release tag for the build
         required: true
         type: string
+      runner:
+        description: The runner environment for the build
+        required: false
+        type: string
+        default: ubuntu-24.04
 
 build:
-  runs-on: ubuntu-24.04
+  runs-on: {{ inputs.runner }}
   defaults:
     run:
       working-directory: {{ inputs.working-directory }}
