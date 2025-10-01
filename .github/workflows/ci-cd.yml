@@ -17,7 +17,9 @@ jobs:
           docker build . --file Dockerfile --tag seekretsanta-frontend:$(date +%s)
   backend:
     runs-on: ubuntu-24.04
-    context: backend
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       - uses: actions/checkout@v4
 
