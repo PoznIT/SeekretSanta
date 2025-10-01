@@ -8,10 +8,10 @@ on:
 
 jobs:
   frontend:
-    runs-on: { { inputs.runner } }
+    runs-on: ubuntu-20.04
     defaults:
       run:
-        working-directory: { { inputs.working-directory } }
+        working-directory: ./frontend
     steps:
       - uses: actions/checkout@v4
 
