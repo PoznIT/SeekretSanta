@@ -1,3 +1,5 @@
+[![CI/CD](https://github.com/pozniako16/SeekretSanta/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/pozniako16/SeekretSanta/actions/workflows/ci-cd.yml)
+
 # SeekretSanta - Secret Santa Web Application
 
 A modern Secret Santa web application built with Java Spring Boot, Next.js, and PostgreSQL.
