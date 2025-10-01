@@ -12,8 +12,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build Frontend
-      run: docker build frontend/. --file Dockerfile --tag seekretsanta-frontend:$(date +%s)
+      run: |
+        cd frontend 
+        docker build . --file Dockerfile --tag seekretsanta-frontend:$(date +%s)
     - name: Build Backend
-      run: docker build backend/, --file Dockerfile --tag seekretsanta-backend:$(date +%s)
+      run: |
+        cd backend
+        docker build . --file Dockerfile --tag seekretsanta-backend:$(date +%s)
     
     
