@@ -7,31 +7,13 @@ on:
     branches: [ "main" ]
 
 jobs:
-  #frontend:
-    #runs-on: ubuntu-latest
-    #defaults:
-    #  run:
-    #    working-directory: ./frontend
-    #steps:
-    #  - uses: actions/checkout@v4
-#
-    #  - name: Set up Docker Buildx
-    #    uses: docker/setup-buildx-action@v3
-#
-    #  - name: Build/Export Docker image
-    #    uses: docker/build-push-action@v6
-    #    with:
-    #      context: ./frontend #{{ inputs.working-directory }}
-    #      file: ./frontend/Dockerfile
-    #      tags: seekretsanta-frontend:${{ github.sha }}
-    #      outputs: type=docker,dest=/tmp/frontend.tar
-#
-    #  - name: Upload Docker image as artifact
-    #    uses: actions/upload-artifact@v4
-    #    with:
-    #      name: docker-image
-    #      path: /tmp/frontend.tar
-    #      retention-days: 1
+  frontend:
+    uses: ./.github/workflows/build-release-template.yml
+    with:
+      working-directory: ./frontend
+      app-name: seekretsanta-frontend
+      release-tag: ${{ github.sha }}
+      runner: ubuntu-24.04
   backend:
     uses: ./.github/workflows/build-release-template.yml
     with:
