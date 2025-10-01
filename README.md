@@ -29,7 +29,7 @@ A modern Secret Santa web application built with Java Spring Boot, Next.js, and 
 
 - Docker and Docker Compose installed
 - Git
-
+ 
 ### Installation
 
 1. Clone or extract the project:
