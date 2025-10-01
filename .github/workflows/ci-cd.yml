@@ -1,4 +1,4 @@
-name: Frontend CI/CD
+name: CI/CD
 
 on:
   push:
@@ -15,3 +15,11 @@ jobs:
         run: |
           cd frontend 
           docker build . --file Dockerfile --tag seekretsanta-frontend:$(date +%s)
+  backend:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build docker
+        run: |
+          cd backend
+          docker build . --file Dockerfile --tag seekretsanta-backend:$(date +%s)
