@@ -1,0 +1,43 @@
+name: Build Release Template
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: The working directory for the build process
+        required: false
+        default: ./
+      app-name:
+        description: The application name for the build
+        required: true
+        type: string
+      release-tag:
+        description: The release tag for the build
+        required: true
+        type: string
+
+build:
+  runs-on: ubuntu-24.04
+  defaults:
+    run:
+      working-directory: {{ inputs.working-directory }}
+  steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build/Export Docker image
+      uses: docker/build-push-action@v6
+      with:
+        context: {{ inputs.app-name }}
+        file: {{ inputs.app-name }}/Dockerfile
+        tags: {{ inputs.app-name }}:{{ inputs.release-tag }}
+        outputs: type=docker,dest=/tmp/{{ inputs.app-name }}.tar
+
+    - name: Upload Docker image as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: docker-image
+        path: /tmp/{{ inputs.app-name }}.tar
+        retention-days: 1

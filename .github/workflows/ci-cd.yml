@@ -16,27 +16,8 @@ jobs:
   #        cd frontend
   #        docker build . --file Dockerfile --tag seekretsanta-frontend:$(date +%s)
   backend:
-    runs-on: ubuntu-24.04
-    defaults:
-      run:
-        working-directory: ./backend
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build/Export Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./backend
-          file: ./backend/Dockerfile
-          tags: seekretsanta-backend:latest
-          outputs: type=docker,dest=/tmp/seekretsanta-backend.tar
-
-      - name: Upload Docker image as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: docker-image
-          path: /tmp/seekretsanta-backend.tar
-          retention-days: 1
+    uses: ./github/workflows/build-release-template.yml
+    with:
+      working-directory: ./backend
+      app-name: seekretsanta-backend
+      release-tag: ${{ github.sha }}
