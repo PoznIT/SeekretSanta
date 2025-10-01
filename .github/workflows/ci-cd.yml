@@ -32,10 +32,10 @@ jobs:
           name: docker-image
           path: /tmp/frontend.tar
           retention-days: 1
-  backend:
-    uses: ./.github/workflows/build-release-template.yml
-    with:
-      working-directory: ./backend
-      app-name: seekretsanta-backend
-      release-tag: ${{ github.sha }}
-      runner: ubuntu-24.04
+  #backend:
+  #  uses: ./.github/workflows/build-release-template.yml
+  #  with:
+  #    working-directory: ./backend
+  #    app-name: seekretsanta-backend
+  #    release-tag: ${{ github.sha }}
+  #    runner: ubuntu-24.04
