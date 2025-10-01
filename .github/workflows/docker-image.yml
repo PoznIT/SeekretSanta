@@ -7,17 +7,19 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  frontend:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Build Frontend
+    - name: Build docker
       run: |
         cd frontend 
         docker build . --file Dockerfile --tag seekretsanta-frontend:$(date +%s)
-    - name: Build Backend
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build docker
       run: |
         cd backend
         docker build . --file Dockerfile --tag seekretsanta-backend:$(date +%s)
-    
-    
