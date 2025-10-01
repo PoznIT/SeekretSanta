@@ -4,16 +4,6 @@
 
 A modern Secret Santa web application built with Java Spring Boot, Next.js, and PostgreSQL.
 
-## Features
-
-- **User Authentication**: Register and login with email/password
-- **Event Management**: Create and manage Secret Santa events (called "Seekrets")
-- **Participant Management**: Add participants with names and emails
-- **Constraint System**: Define who cannot give gifts to whom
-- **Assignment Generation**: Automatically generate valid gift assignments
-- **Unique Links**: Share events via unique, shareable links
-- **Responsive UI**: Works on desktop and mobile devices
-
 
 ## Architecture
 
@@ -33,9 +23,7 @@ A modern Secret Santa web application built with Java Spring Boot, Next.js, and 
 ### Installation
 
 1. Clone or extract the project:
-   ```bash
-   cd seekretsanta
-   ```
+
 
 2. Start all services:
    ```bash
@@ -101,46 +89,8 @@ PostgreSQL database with Flyway migrations:
 
 ## Configuration
 
-### Environment Variables
-
-Create a `.env` file with:
-
-```env
-POSTGRES_DB=seekretsanta
-POSTGRES_USER=seekretsanta_user
-POSTGRES_PASSWORD=seekretsanta_password
-JWT_SECRET=your-secret-key
-JWT_EXPIRATION=86400000
-```
-
 ### Docker Services
 
 - **database**: PostgreSQL 15
 - **backend**: Spring Boot API (port 8080)
 - **frontend**: Next.js app (port 3000)
-
-## Production Deployment
-
-1. Change JWT secret in production
-2. Use environment-specific database credentials
-3. Configure HTTPS
-4. Set up proper CORS origins
-5. Configure email service for notifications (optional)
-
-## Troubleshooting
-
-### Services won't start
-- Check if ports 3000, 8080, 5432 are available
-- Run `docker-compose logs` to see error messages
-
-### Database connection issues
-- Wait for PostgreSQL to fully start (30 seconds)
-- Check database credentials in docker-compose.yml
-
-### Frontend can't reach backend
-- Ensure backend service is healthy
-- Check network configuration in docker-compose
-
-## License
-
-This project is provided as-is for educational purposes.
