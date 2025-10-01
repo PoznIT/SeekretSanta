@@ -29,6 +29,7 @@ jobs:
       - name: Build/Export Docker image
         uses: docker/build-push-action@v6
         with:
+          context: .
           file: Dockerfile
           tags: seekretsanta-backend:latest
           outputs: type=docker,dest=/tmp/seekretsanta-backend.tar
