@@ -19,7 +19,7 @@ on:
         description: The runner environment for the build
         required: false
         type: string
-        default: ubuntu-24.04
+        default: ubuntu-latest
 
 build:
   runs-on: {{ inputs.runner }}
@@ -35,14 +35,14 @@ build:
     - name: Build/Export Docker image
       uses: docker/build-push-action@v6
       with:
-        context: ./backend #{{ inputs.working-directory }}
-        file: {{ inputs.app-name }}/Dockerfile
-        tags: {{ inputs.app-name }}:{{ inputs.release-tag }}
-        outputs: type=docker,dest=/tmp/{{ inputs.app-name }}.tar
+        context: {{ inputs.working-directory }}
+        file: ${{ inputs.app-name }}/Dockerfile
+        tags: ${{ inputs.app-name }}:${{ inputs.release-tag }}
+        outputs: type=docker,dest=/tmp/${{ inputs.app-name }}.tar
 
     - name: Upload Docker image as artifact
       uses: actions/upload-artifact@v4
       with:
         name: docker-image
-        path: /tmp/{{ inputs.app-name }}.tar
+        path: /tmp/${{ inputs.app-name }}.tar
         retention-days: 1
