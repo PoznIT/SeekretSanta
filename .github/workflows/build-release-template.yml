@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ${{ inputs.working-directory }}
-          file: ${{ inputs.app-name }}/Dockerfile
+          file: ${{ inputs.working-directory }}/Dockerfile
           tags: ${{ inputs.app-name }}:${{ inputs.release-tag }}
           outputs: type=docker,dest=/tmp/${{ inputs.app-name }}.tar
 
