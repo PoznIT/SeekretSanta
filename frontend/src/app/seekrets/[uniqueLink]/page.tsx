@@ -177,16 +177,21 @@ export default function SeekretView() {
                     <span className="font-medium">{participant.name}</span>
                     <span className="text-gray-600 text-sm ml-2">{participant.email}</span>
                   </div>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      const url = `${window.location.origin}/seekrets/${seekret.uniqueLink}/participant/${participant.id}`;
-                      navigator.clipboard.writeText(url);
-                      alert('Link copied to clipboard!');
-                    }}
-                  >
-                    Copy Link
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-gray-500 bg-gray-200 rounded px-2 py-1 select-all">
+                      {`${window.location.origin}/seekrets/${seekret.uniqueLink}/participant/${participant.id}`}
+                    </span>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        const url = `${window.location.origin}/seekrets/${seekret.uniqueLink}/participant/${participant.id}`;
+                        navigator.clipboard.writeText(url);
+                        alert('Link copied to clipboard!');
+                      }}
+                    >
+                      Copy Link
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
