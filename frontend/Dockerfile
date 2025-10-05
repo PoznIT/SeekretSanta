@@ -2,6 +2,7 @@
 FROM node:22-slim AS base
 ARG PORT=3000
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 WORKDIR /app
 
 # Dependencies stage
@@ -13,12 +14,14 @@ RUN npm ci
 FROM base AS build
 COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 RUN npm run build
 
 # Production stage
 FROM base AS run
 ENV NODE_ENV=production
 ENV PORT=$PORT
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 RUN mkdir .next
