@@ -46,12 +46,26 @@ jobs:
     needs: [ frontend, backend ]
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/checkout@v3
-        - uses: humbertocrispim/ssh-docker-compose-action@v1.0.0
-          name: Deploy with Docker Compose
-          with:
-            ssh_host: ${{ secrets.SSH_HOST }}
-            ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-            ssh_user: ${{ secrets.SSH_USER }}
-            docker_compose_prefix: myapp
-            pull: true
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Copy files to server
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "docker-compose.yml"
+          target: "~/.deploy/${{ github.event.repository.name }}/"
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/.deploy/${{ github.event.repository.name }}
+            docker-compose pull
+            docker-compose down
+            docker-compose up -d
