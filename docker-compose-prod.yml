@@ -13,7 +13,7 @@ services:
       - seekretsanta-network
 
   backend:
-    image: pozniako/seekretsanta-backend
+    image: pozniako/seekretsanta-backend:latest
     platform: "linux/amd64"
     ports:
       - "8080:8080"
@@ -25,7 +25,7 @@ services:
       - seekretsanta-network
 
   frontend:
-    image: pozniako/seekretsanta-frontend
+    image: pozniako/seekretsanta-frontend:latest
     platform: "linux/amd64"
     ports:
       - "3000:3000"
