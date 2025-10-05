@@ -12,6 +12,8 @@ services:
     networks:
       - seekretsanta-network
   backend:
+    image: pozniako/seekretsanta-backend
+    platform: "linux/amd64"
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -24,6 +26,8 @@ services:
     networks:
       - seekretsanta-network
   frontend:
+    image: pozniako/seekretsanta-frontend
+    platform: "linux/amd64"
     build:
       context: ./frontend
       dockerfile: Dockerfile
