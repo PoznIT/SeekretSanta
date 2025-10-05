@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const backendApiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api`;
+const backendApiUrl = 'http://backend:8080/api' //`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api`;
 
 module.exports =  {
   output: 'standalone',
