@@ -12,7 +12,7 @@ services:
     networks:
       - seekretsanta-network
   backend:
-    image: pozniako/seekretsanta-backend
+    image: pozniako/seekretsanta-backend:latest
     ports:
       - "8080:8080"
     environment:
@@ -23,7 +23,7 @@ services:
       - seekretsanta-network
 
   frontend:
-    image: pozniako/seekretsanta-frontend
+    image: pozniako/seekretsanta-frontend:latest
     ports:
       - "3000:3000"
     depends_on:
