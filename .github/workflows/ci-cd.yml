@@ -20,7 +20,6 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-        working-directory: ./frontend
       - name: Validate package-lock.json is up to date
         run:
           npx --yes package-lock-utd@1.x.x
