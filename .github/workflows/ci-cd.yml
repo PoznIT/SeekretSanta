@@ -20,9 +20,9 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+        working-directory: ./frontend
       - name: Validate package-lock.json is up to date
-        run: |
-          cd frontend
+        run:
           npx --yes package-lock-utd@1.x.x
   frontend:
     needs: frontend-validation
