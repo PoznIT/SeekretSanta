@@ -73,7 +73,7 @@ jobs:
 
       - name: Tag and push
         run: |
-          docker tag ${{ inputs.app-name }}:${{ github.sha }} ${{ inputs.docker-username }}/${{ inputs.app-name }}:latest
-          docker tag ${{ inputs.app-name }}:${{ github.sha }} ${{ inputs.docker-username }}/${{ inputs.app-name }}:${{ github.sha }}
+          docker tag ${{ inputs.app-name }}:${{ github.sha }} ${{ secrets.DOCKERHUB_USER }}/${{ inputs.app-name }}:latest
+          docker tag ${{ inputs.app-name }}:${{ github.sha }} ${{ secrets.DOCKERHUB_USER }}/${{ inputs.app-name }}:${{ github.sha }}
           docker push ${{ secrets.DOCKERHUB_USER }}/${{ inputs.app-name }}:latest
           docker push ${{ secrets.DOCKERHUB_USER }}/${{ inputs.app-name }}:${{ github.sha }}
