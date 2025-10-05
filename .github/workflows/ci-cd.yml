@@ -41,3 +41,17 @@ jobs:
       app-name: seekretsanta-backend
       runner: ubuntu-24.04
     secrets: inherit
+
+  deploy:
+    needs: [ frontend, backend ]
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v3
+        - uses: humbertocrispim/ssh-docker-compose-action@v1.0.0
+          name: Deploy with Docker Compose
+          with:
+            ssh_host: ${{ secrets.SSH_HOST }}
+            ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+            ssh_user: ${{ secrets.SSH_USER }}
+            docker_compose_prefix: myapp
+            pull: true
