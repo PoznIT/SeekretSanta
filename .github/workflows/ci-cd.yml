@@ -9,7 +9,9 @@ on:
 jobs:
   frontend-validation:
     runs-on: ubuntu-latest
-    context: ./frontend
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
