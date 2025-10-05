@@ -7,7 +7,6 @@ WORKDIR /app
 # Dependencies stage
 FROM base AS dependencies
 COPY package.json package-lock.json ./
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 RUN npm ci
 
 # Build stage
