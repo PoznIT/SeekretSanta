@@ -1,15 +1,31 @@
-FROM node:current-alpine3.21@sha256:843a738e7405b4fb42b2fc37d6c99cd2063af9f48852968a09851129a96b0ebf AS builder
+# syntax = docker/dockerfile:1
+FROM node:22-slim AS base
+ARG PORT=3000
+ENV NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app
+
+# Dependencies stage
+FROM base AS dependencies
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm ci
+
+# Build stage
+FROM base AS build
+COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 RUN npm run build
 
-FROM node:current-alpine3.21@sha256:843a738e7405b4fb42b2fc37d6c99cd2063af9f48852968a09851129a96b0ebf AS runner
-WORKDIR /app
+# Production stage
+FROM base AS run
 ENV NODE_ENV=production
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-EXPOSE 3000
-CMD ["npx", "next", "start"]
+ENV PORT=$PORT
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
+USER nextjs
+EXPOSE $PORT
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]
