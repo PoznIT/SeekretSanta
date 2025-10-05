@@ -11,10 +11,8 @@ services:
       - "5432:5432"
     networks:
       - seekretsanta-network
-
   backend:
-    image: pozniako/seekretsanta-backend:latest
-    platform: "linux/amd64"
+    image: pozniako/seekretsanta-backend
     ports:
       - "8080:8080"
     environment:
@@ -25,8 +23,7 @@ services:
       - seekretsanta-network
 
   frontend:
-    image: pozniako/seekretsanta-frontend:latest
-    platform: "linux/amd64"
+    image: pozniako/seekretsanta-frontend
     ports:
       - "3000:3000"
     depends_on:
@@ -34,7 +31,7 @@ services:
     networks:
       - seekretsanta-network
     environment:
-      NEXT_PUBLIC_API_URL: http://backend:8080
+      NEXT_PUBLIC_API_URL: 83.228.210.115:8080
 
 volumes:
   postgres_data:
