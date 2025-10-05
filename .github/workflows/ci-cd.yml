@@ -59,13 +59,13 @@ jobs:
           target: "~/.deploy/${{ github.event.repository.name }}/"
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v0.1.5
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/.deploy/${{ github.event.repository.name }}
-            docker-compose pull
-            docker-compose down
-            docker-compose up -d
+            docker compose pull
+            docker compose down
+            docker compose up -d
