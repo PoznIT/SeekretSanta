@@ -30,7 +30,6 @@ jobs:
       app-name: seekretsanta-frontend
       release-tag: ${{ github.sha }}
       runner: ubuntu-24.04
-    steps:
 
   backend:
     uses: ./.github/workflows/build-release-template.yml
