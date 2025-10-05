@@ -8,19 +8,18 @@ on:
 
 jobs:
   frontend-validation:
-    validate:
-      runs-on: ubuntu-latest
-      context: ./frontend
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-        - name: Setup Node.js
-          uses: actions/setup-node@v4
-          with:
-            node-version: '18'
-            cache: 'npm'
-        - name: Validate package-lock.json is up to date
-          run: npx --yes package-lock-utd@1.x.x
+    runs-on: ubuntu-latest
+    context: ./frontend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      - name: Validate package-lock.json is up to date
+        run: npx --yes package-lock-utd@1.x.x
   frontend:
     needs: frontend-validation
     uses: ./.github/workflows/build-release-template.yml
