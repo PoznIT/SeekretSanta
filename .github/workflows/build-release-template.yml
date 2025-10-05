@@ -17,10 +17,6 @@ on:
         required: false
         type: string
         default: ubuntu-latest
-      docker-username:
-        description: Docker registry username
-        required: true
-        type: string
 
 jobs:
   build:
@@ -64,9 +60,15 @@ jobs:
       - name: Load image
         run: docker load --input /tmp/${{ inputs.app-name }}.tar
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Tag and push
         run: |
           docker tag ${{ inputs.app-name }}:${{ github.sha }} ${{ inputs.docker-username }}/${{ inputs.app-name }}:latest
           docker tag ${{ inputs.app-name }}:${{ github.sha }} ${{ inputs.docker-username }}/${{ inputs.app-name }}:${{ github.sha }}
-          docker push ${{ inputs.docker-username }}/${{ inputs.app-name }}:latest
-          docker push ${{ inputs.docker-username }}/${{ inputs.app-name }}:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.app-name }}:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.app-name }}:${{ github.sha }}
