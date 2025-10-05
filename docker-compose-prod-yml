@@ -11,11 +11,10 @@ services:
       - "5432:5432"
     networks:
       - seekretsanta-network
+
   backend:
     image: pozniako/seekretsanta-backend
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    platform: "linux/amd64"
     ports:
       - "8080:8080"
     environment:
@@ -24,17 +23,19 @@ services:
       - database
     networks:
       - seekretsanta-network
+
   frontend:
     image: pozniako/seekretsanta-frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    platform: "linux/amd64"
     ports:
       - "3000:3000"
     depends_on:
       - backend
     networks:
       - seekretsanta-network
+    environment:
+      NEXT_PUBLIC_API_URL: http://blabla:8080
+
 volumes:
   postgres_data:
 

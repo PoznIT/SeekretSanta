@@ -55,7 +55,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose.yml"
+          source: "docker-compose-prod.yml"
           target: "~/.deploy/${{ github.event.repository.name }}/"
 
       - name: Deploy via SSH
