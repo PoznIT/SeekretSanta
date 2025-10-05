@@ -30,8 +30,8 @@ jobs:
     with:
       working-directory: ./frontend
       app-name: seekretsanta-frontend
-      release-tag: ${{ github.sha }}
       runner: ubuntu-24.04
+      docker-username: pozniako
 
   backend:
     needs: frontend-validation
@@ -39,5 +39,5 @@ jobs:
     with:
       working-directory: ./backend
       app-name: seekretsanta-backend
-      release-tag: ${{ github.sha }}
       runner: ubuntu-24.04
+      docker-username: pozniako
