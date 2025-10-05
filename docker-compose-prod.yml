@@ -34,7 +34,7 @@ services:
     networks:
       - seekretsanta-network
     environment:
-      NEXT_PUBLIC_API_URL: http://blabla:8080
+      NEXT_PUBLIC_API_URL: http://backend:8080
 
 volumes:
   postgres_data:
