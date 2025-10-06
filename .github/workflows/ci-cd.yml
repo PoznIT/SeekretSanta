@@ -35,7 +35,7 @@ jobs:
     uses: ./.github/workflows/build-release-template.yml
     with:
       working-directory: ./frontend
-      app-name: $FRONTEND_APP
+      app-name: ${{ env.FRONTEND_APP }}
       runner: ubuntu-24.04
     secrets: inherit
 
@@ -44,7 +44,7 @@ jobs:
     uses: ./.github/workflows/build-release-template.yml
     with:
       working-directory: ./backend
-      app-name: $BACKEND_APP
+      app-name: ${{ env.BACKEND_APP }}
       runner: ubuntu-24.04
     secrets: inherit
 
@@ -61,7 +61,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: $COMPOSE_FILE
+          source: ${{ env.COMPOSE_FILE }}
           target: "~/.deploy/${{ github.event.repository.name }}/"
 
       - name: Create docker-compose.override.yml on server
@@ -71,12 +71,12 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cat > ~/.deploy/${{ github.event.repository.name }}/$OVERRIDE_FILE <<EOL
+            cat > ~/.deploy/${{ github.event.repository.name }}/${{ env.OVERRIDE_FILE }} <<EOL
             services:
               backend:
-                image: ${{ secrets.DOCKERHUB_USER }}/$BACKEND_APP:${{ github.sha }}
+                image: ${{ secrets.DOCKERHUB_USER }}/${{ env.BACKEND_APP }}:${{ github.sha }}
               frontend:
-                image: ${{ secrets.DOCKERHUB_USER }}/$FRONTEND_APP:${{ github.sha }}
+                image: ${{ secrets.DOCKERHUB_USER }}/${{ env.FRONTEND_APP }}:${{ github.sha }}
             EOL
 
       - name: Deploy via SSH
@@ -87,8 +87,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/.deploy/${{ github.event.repository.name }}
-            docker compose -f $COMPOSE_FILE -f $OVERRIDE_FILE stop
-            docker compose -f $COMPOSE_FILE -f $OVERRIDE_FILE rm -f
-            docker compose -f $COMPOSE_FILE -f $OVERRIDE_FILE pull
-            docker compose -f $COMPOSE_FILE -f $OVERRIDE_FILE up -d
+            docker compose -f ${{ env.COMPOSE_FILE }} -f ${{ env.OVERRIDE_FILE }} stop
+            docker compose -f ${{ env.COMPOSE_FILE }} -f ${{ env.OVERRIDE_FILE }} rm -f
+            docker compose -f ${{ env.COMPOSE_FILE }} -f ${{ env.OVERRIDE_FILE }} pull
+            docker compose -f ${{ env.COMPOSE_FILE }} -f ${{ env.OVERRIDE_FILE }} up -d
             docker image prune -af
