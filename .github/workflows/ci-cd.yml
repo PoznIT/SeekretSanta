@@ -5,12 +5,28 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-env:
-  FRONTEND_APP: seekretsanta-frontend
-  BACKEND_APP: seekretsanta-backend
-  COMPOSE_FILE: docker-compose-prod.yml
-  OVERRIDE_FILE: docker-compose.override.yml
+  workflow_call:
+    inputs:
+      frontend_app:
+        description: name of the frontend app
+        required: false
+        type: string
+        default: seekretsanta-frontend
+      backend_app:
+        description: name of the backend app
+        required: false
+        type: string
+        default: seekretsanta-backend
+      compose_file:
+        description: name of the docker-compose file
+        required: false
+        type: string
+        default: docker-compose-prod.yml
+      compose_override_file:
+        description: name of the docker-compose override file
+        required: false
+        type: string
+        default: docker-compose.override.yml
 
 jobs:
   frontend-validation:
@@ -35,7 +51,7 @@ jobs:
     uses: ./.github/workflows/build-release-template.yml
     with:
       working-directory: ./frontend
-      app-name: ${{ env.FRONTEND_APP }}
+      app-name: ${{ inputs.frontend_app }}
       runner: ubuntu-24.04
     secrets: inherit
 
@@ -44,7 +60,7 @@ jobs:
     uses: ./.github/workflows/build-release-template.yml
     with:
       working-directory: ./backend
-      app-name: ${{ env.BACKEND_APP }}
+      app-name: ${{ inputs.backend_app }}
       runner: ubuntu-24.04
     secrets: inherit
 
@@ -61,7 +77,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: ${{ env.COMPOSE_FILE }}
+          source: ${{ inputs.compose_file }}
           target: "~/.deploy/${{ github.event.repository.name }}/"
 
       - name: Create docker-compose.override.yml on server
@@ -71,12 +87,12 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cat > ~/.deploy/${{ github.event.repository.name }}/${{ env.OVERRIDE_FILE }} <<EOL
+            cat > ~/.deploy/${{ github.event.repository.name }}/${{ inputs.compose_override_file }} <<EOL
             services:
               backend:
-                image: ${{ secrets.DOCKERHUB_USER }}/${{ env.BACKEND_APP }}:${{ github.sha }}
+                image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.backend_app }}:${{ github.sha }}
               frontend:
-                image: ${{ secrets.DOCKERHUB_USER }}/${{ env.FRONTEND_APP }}:${{ github.sha }}
+                image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.frontend_app }}:${{ github.sha }}
             EOL
 
       - name: Deploy via SSH
@@ -87,8 +103,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/.deploy/${{ github.event.repository.name }}
-            docker compose -f ${{ env.COMPOSE_FILE }} -f ${{ env.OVERRIDE_FILE }} stop
-            docker compose -f ${{ env.COMPOSE_FILE }} -f ${{ env.OVERRIDE_FILE }} rm -f
-            docker compose -f ${{ env.COMPOSE_FILE }} -f ${{ env.OVERRIDE_FILE }} pull
-            docker compose -f ${{ env.COMPOSE_FILE }} -f ${{ env.OVERRIDE_FILE }} up -d
+            docker compose -f ${{ inputs.compose_file }} -f ${{ inputs.compose_override_file }} stop
+            docker compose -f ${{ inputs.compose_file }} -f ${{ inputs.compose_override_file }} rm -f
+            docker compose -f ${{ inputs.compose_file }} -f ${{ inputs.compose_override_file }} pull
+            docker compose -f ${{ inputs.compose_file }} -f ${{ inputs.compose_override_file }} up -d
             docker image prune -af
