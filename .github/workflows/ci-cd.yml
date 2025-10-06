@@ -5,28 +5,12 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  workflow_call:
-    inputs:
-      frontend_app:
-        description: name of the frontend app
-        required: false
-        type: string
-        default: seekretsanta-frontend
-      backend_app:
-        description: name of the backend app
-        required: false
-        type: string
-        default: seekretsanta-backend
-      compose_file:
-        description: name of the docker-compose file
-        required: false
-        type: string
-        default: docker-compose-prod.yml
-      compose_override_file:
-        description: name of the docker-compose override file
-        required: false
-        type: string
-        default: docker-compose.override.yml
+
+env:
+  COMPOSE_FILE: docker-compose.yml
+  COMPOSE_OVERRIDE_FILE: docker-compose.override.yml
+  FRONTEND_APP: seekretsanta-frontend
+  BACKEND_APP: seekretsanta-backend
 
 jobs:
   frontend-validation:
@@ -51,7 +35,7 @@ jobs:
     uses: ./.github/workflows/build-release-template.yml
     with:
       working-directory: ./frontend
-      app-name: ${{ inputs.frontend_app }}
+      app-name: seekretsanta-frontend
       runner: ubuntu-24.04
     secrets: inherit
 
@@ -60,7 +44,7 @@ jobs:
     uses: ./.github/workflows/build-release-template.yml
     with:
       working-directory: ./backend
-      app-name: ${{ inputs.backend_app }}
+      app-name: seekretsanta-backend
       runner: ubuntu-24.04
     secrets: inherit
 
@@ -73,29 +57,28 @@ jobs:
 
       - name: List images
         run: |
-          echo "Frontend image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.frontend_app }}:${{ github.sha }}"
-          echo "Backend image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.backend_app }}:${{ github.sha }}"
-
+          echo "Backend image: ${{ secrets.DOCKERHUB_USER }}/${{ env.BACKEND_APP }}:${{ github.sha }}"
+          echo "Frontend image: ${{ secrets.DOCKERHUB_USER }}/${{ env.FRONTEND_APP }}:${{ github.sha }}"
       - name: Create compose overrides
         run: |
-          cat > ${{ inputs.compose_override_file }} << EOL
+          cat > ${{ env.COMPOSE_OVERRIDE_FILE }} << EOL
           services:
             backend:
-              image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.backend_app }}:${{ github.sha }}
+              image: ${{ secrets.DOCKERHUB_USER }}/${{ env.BACKEND_APP }}:${{ github.sha }}
             frontend:
-              image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.frontend_app }}:${{ github.sha }}
+              image: ${{ secrets.DOCKERHUB_USER }}/${{ env.FRONTEND_APP }}:${{ github.sha }}
           EOL
       - name: Store in artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ inputs.compose_override_file }}
-          path: ${{ inputs.compose_override_file }}
+          name: ${{ env.COMPOSE_OVERRIDE_FILE }}
+          path: ${{ env.COMPOSE_OVERRIDE_FILE }}
 
   deploy:
     needs: prepare-deploy
     uses: ./.github/workflows/deploy-template.yml
     with:
-      compose_file: ${{ inputs.compose_file }}
-      compose_override_file: ${{ inputs.compose_override_file }}
+      compose_file: ${{ env.COMPOSE_FILE }}
+      compose_override_file: ${{ env.COMPOSE_OVERRIDE_FILE }}
       deployment_folder: .deploy
     secrets: inherit

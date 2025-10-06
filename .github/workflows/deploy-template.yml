@@ -9,7 +9,7 @@ on:
         type: string
       compose_override_file:
         description: name of the docker-compose override file
-        required: false
+        required: true
         type: string
         default: docker-compose.override.yml
       deployment_folder:
