@@ -69,7 +69,7 @@ jobs:
               image: ${{ secrets.DOCKERHUB_USER }}/${{ env.FRONTEND_APP }}:${{ github.sha }}
           EOL
       - name: Store in artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.COMPOSE_OVERRIDE_FILE }}
           path: ${{ env.COMPOSE_OVERRIDE_FILE }}
