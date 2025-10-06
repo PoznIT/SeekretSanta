@@ -47,5 +47,5 @@ jobs:
         with:
           context: ${{ inputs.working-directory }}
           file: ${{ inputs.working-directory }}/Dockerfile
-          tags: ${{ inputs.app-name }}:${{ github.sha }}
+          tags: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.app-name }}:${{ github.sha }}
           push: true
