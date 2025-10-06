@@ -68,9 +68,9 @@ jobs:
             cat > ~/.deploy/${{ github.event.repository.name }}/docker-compose.override.yml <<EOL
             services:
               backend:
-                image: your-registry/seekretsanta-backend:${{ github.sha }}
+                image: ${{ secrets.DOCKERHUB_USER }}/seekretsanta-backend:${{ github.sha }}
               frontend:
-                image: your-registry/seekretsanta-frontend:${{ github.sha }}
+                image: ${{ secrets.DOCKERHUB_USER }}/seekretsanta-frontend:${{ github.sha }}
             EOL
 
       - name: Deploy via SSH
