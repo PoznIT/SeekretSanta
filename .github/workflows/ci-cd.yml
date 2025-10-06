@@ -58,6 +58,21 @@ jobs:
           source: "docker-compose-prod.yml"
           target: "~/.deploy/${{ github.event.repository.name }}/"
 
+      - name: Create docker-compose.override.yml on server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cat > ~/.deploy/${{ github.event.repository.name }}/docker-compose.override.yml <<EOL
+              services:
+                backend:
+                  image: your-registry/seekretsanta-backend:${{ github.sha }}
+                frontend:
+                  image: your-registry/seekretsanta-frontend:${{ github.sha }}
+              EOL
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
@@ -66,8 +81,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/.deploy/${{ github.event.repository.name }}
-            docker compose -f docker-compose-prod.yml stop
+            docker compose -f docker-compose-prod.yml -f docker-compose.override.yml stop
+            docker compose -f docker-compose-prod.yml -f docker-compose.override.yml rm -f
+            docker compose -f docker-compose-prod.yml -f docker-compose.override.yml pull
+            docker compose -f docker-compose-prod.yml -f docker-compose.override.yml up -d
             docker image prune -af
-            docker compose -f docker-compose-prod.yml rm -f
-            docker compose -f docker-compose-prod.yml pull
-            docker compose -f docker-compose-prod.yml up -d 
