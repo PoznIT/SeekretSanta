@@ -78,7 +78,7 @@ jobs:
     needs: prepare-deploy
     uses: ./.github/workflows/deploy-template.yml
     with:
-      compose_file: ${{ env.COMPOSE_FILE }}
-      compose_override_file: ${{ env.COMPOSE_OVERRIDE_FILE }}
+      compose_file: docker-compose-prod.yml
+      compose_override_file: docker-compose.override.yml
       deployment_folder: .deploy
     secrets: inherit
