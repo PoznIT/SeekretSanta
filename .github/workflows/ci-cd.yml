@@ -66,12 +66,12 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cat > ~/.deploy/${{ github.event.repository.name }}/docker-compose.override.yml <<EOL
-              services:
-                backend:
-                  image: your-registry/seekretsanta-backend:${{ github.sha }}
-                frontend:
-                  image: your-registry/seekretsanta-frontend:${{ github.sha }}
-              EOL
+            services:
+              backend:
+                image: your-registry/seekretsanta-backend:${{ github.sha }}
+              frontend:
+                image: your-registry/seekretsanta-frontend:${{ github.sha }}
+            EOL
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
