@@ -32,7 +32,7 @@ jobs:
           npx --yes package-lock-utd@1.x.x
   frontend:
     needs: frontend-validation
-    uses: ./.github/workflows/build-release-template.yml
+    uses: ./.github/workflows/templates/build-release.yml
     with:
       working-directory: ./frontend
       app-name: seekretsanta-frontend
@@ -41,7 +41,7 @@ jobs:
 
   backend:
     needs: frontend-validation
-    uses: ./.github/workflows/build-release-template.yml
+    uses: ./.github/workflows/templates/build-release.yml
     with:
       working-directory: ./backend
       app-name: seekretsanta-backend
@@ -76,9 +76,18 @@ jobs:
 
   deploy:
     needs: prepare-deploy
-    uses: ./.github/workflows/deploy-template.yml
+    uses: ./.github/workflows/templates/deploy.yml
     with:
       compose_file: docker-compose-prod.yml
       compose_override_file: docker-compose.override.yml
       deployment_folder: .deploy
     secrets: inherit
+
+  delete-artifacts:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete artifacts
+        uses: geekyeggo/delete-artifact@v1
+        with:
+          name: docker-compose.override.yml
