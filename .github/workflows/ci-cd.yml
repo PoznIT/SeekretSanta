@@ -32,7 +32,7 @@ jobs:
           npx --yes package-lock-utd@1.x.x
   frontend:
     needs: frontend-validation
-    uses: ./.github/workflows/templates/build-release.yml
+    uses: ./.github/workflows/build-release.yml
     with:
       working-directory: ./frontend
       app-name: seekretsanta-frontend
@@ -41,7 +41,7 @@ jobs:
 
   backend:
     needs: frontend-validation
-    uses: ./.github/workflows/templates/build-release.yml
+    uses: ./.github/workflows/build-release.yml
     with:
       working-directory: ./backend
       app-name: seekretsanta-backend
@@ -76,7 +76,7 @@ jobs:
 
   deploy:
     needs: prepare-deploy
-    uses: ./.github/workflows/templates/deploy.yml
+    uses: ./.github/workflows/deploy.yml
     with:
       compose_file: docker-compose-prod.yml
       compose_override_file: docker-compose.override.yml
