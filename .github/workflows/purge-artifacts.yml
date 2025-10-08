@@ -1,0 +1,37 @@
+name: Purge Artifacts
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: purge-artifacts
+  cancel-in-progress: false
+
+jobs:
+  delete-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List & delete all artifacts
+        env:
+          GH_REPO: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
+        run: |
+          echo "Fetching artifact IDs..."
+          ids=$(gh api repos/$GH_REPO/actions/artifacts --paginate -q '.artifacts[].id')
+          if [ -z "$ids" ]; then
+            echo "No artifacts to delete."
+            exit 0
+          fi
+          count=0
+          for id in $ids; do
+            echo "Deleting artifact id=$id"
+            gh api -X DELETE repos/$GH_REPO/actions/artifacts/$id >/dev/null
+            count=$((count+1))
+          done
+          echo "Deleted $count artifacts."
