@@ -6,12 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  COMPOSE_FILE: docker-compose.yml
-  COMPOSE_OVERRIDE_FILE: docker-compose.override.yml
-  FRONTEND_APP: seekretsanta-frontend
-  BACKEND_APP: seekretsanta-backend
-
 jobs:
   frontend-validation:
     runs-on: ubuntu-latest
@@ -56,12 +50,3 @@ jobs:
       compose_override_file: docker-compose.override.yml
       deployment_folder: .deploy
     secrets: inherit
-
-  delete-artifacts:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Delete artifacts
-        uses: geekyeggo/delete-artifact@v1
-        with:
-          name: docker-compose.override.yml
