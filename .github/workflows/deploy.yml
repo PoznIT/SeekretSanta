@@ -31,13 +31,26 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             mkdir -p ~/${{ inputs.deployment_folder }}/${{ github.event.repository.name }}
+      - name: Create compose overrides
+        run: |
+          cat > ${{ env.COMPOSE_OVERRIDE_FILE }} << EOL
+          services:
+            backend:
+              image: ${{ secrets.DOCKERHUB_USER }}/${{ env.BACKEND_APP }}:${{ github.sha }}
+            frontend:
+              image: ${{ secrets.DOCKERHUB_USER }}/${{ env.FRONTEND_APP }}:${{ github.sha }}
+          EOL
 
-      - name: Load override file from artifact
-        uses: actions/download-artifact@v4
+      - name: Copy docker-compose.override file to server
+        uses: appleboy/scp-action@v0.1.3
         with:
-          name: ${{ inputs.compose_override_file }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: ${{ inputs.compose_override_file }}
+          target: "${{ inputs.deployment_folder }}/${{ github.event.repository.name }}/"
 
-      - name: Copy files to server
+      - name: Copy docker-compose file to server
         uses: appleboy/scp-action@v0.1.3
         with:
           host: ${{ secrets.SSH_HOST }}

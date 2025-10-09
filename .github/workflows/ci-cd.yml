@@ -48,34 +48,8 @@ jobs:
       runner: ubuntu-24.04
     secrets: inherit
 
-  prepare-deploy:
-    needs: [ frontend, backend ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: List images
-        run: |
-          echo "Backend image: ${{ secrets.DOCKERHUB_USER }}/${{ env.BACKEND_APP }}:${{ github.sha }}"
-          echo "Frontend image: ${{ secrets.DOCKERHUB_USER }}/${{ env.FRONTEND_APP }}:${{ github.sha }}"
-      - name: Create compose overrides
-        run: |
-          cat > ${{ env.COMPOSE_OVERRIDE_FILE }} << EOL
-          services:
-            backend:
-              image: ${{ secrets.DOCKERHUB_USER }}/${{ env.BACKEND_APP }}:${{ github.sha }}
-            frontend:
-              image: ${{ secrets.DOCKERHUB_USER }}/${{ env.FRONTEND_APP }}:${{ github.sha }}
-          EOL
-      - name: Store in artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.COMPOSE_OVERRIDE_FILE }}
-          path: ${{ env.COMPOSE_OVERRIDE_FILE }}
-
   deploy:
-    needs: prepare-deploy
+    needs: [backend, frontend]
     uses: ./.github/workflows/deploy.yml
     with:
       compose_file: docker-compose-prod.yml
