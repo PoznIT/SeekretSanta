@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth") // removed leading /api because server.context-path already adds /api
 public class AuthController {
 
     private final UserService userService;
