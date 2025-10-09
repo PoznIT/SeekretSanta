@@ -16,6 +16,16 @@ on:
         description: folder on the server to deploy to
         required: true
         type: string
+      backend_app:
+        description: backend application name
+        required: false
+        type: string
+        default: seekretsanta-backend
+      frontend_app:
+        description: frontend application name
+        required: false
+        type: string
+        default: seekretsanta-frontend
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -33,12 +43,12 @@ jobs:
             mkdir -p ~/${{ inputs.deployment_folder }}/${{ github.event.repository.name }}
       - name: Create compose overrides
         run: |
-          cat > ${{ env.COMPOSE_OVERRIDE_FILE }} << EOL
+          cat > ${{ inputs.compose_override_file }} << EOL
           services:
             backend:
-              image: ${{ secrets.DOCKERHUB_USER }}/${{ env.BACKEND_APP }}:${{ github.sha }}
+              image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.backend_app }}:${{ github.sha }}
             frontend:
-              image: ${{ secrets.DOCKERHUB_USER }}/${{ env.FRONTEND_APP }}:${{ github.sha }}
+              image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.frontend_app }}:${{ github.sha }}
           EOL
 
       - name: Copy docker-compose.override file to server
