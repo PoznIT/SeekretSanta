@@ -33,7 +33,6 @@ jobs:
       runner: ubuntu-24.04
     secrets: inherit
 
-
   backend:
     needs: frontend-validation
     uses: ./.github/workflows/build-release.yml
