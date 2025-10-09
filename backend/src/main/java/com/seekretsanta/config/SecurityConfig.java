@@ -37,7 +37,8 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/auth/**").permitAll()
+                // IMPORTANT: context-path is /api, so incoming /api/auth/** becomes /auth/** for matchers
+                .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/seekrets/view/**").permitAll()
                 .anyRequest().authenticated()
             )
