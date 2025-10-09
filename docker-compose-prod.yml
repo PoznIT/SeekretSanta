@@ -31,7 +31,7 @@ services:
     networks:
       - seekretsanta-network
     environment:
-      NEXT_PUBLIC_API_URL: http://83.228.210.115
+      NEXT_PUBLIC_API_URL: http://83.228.210.115:8080
 
   nginx:
     image: nginx:alpine

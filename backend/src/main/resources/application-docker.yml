@@ -26,13 +26,6 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
-  security:
-    cors:
-      allowed-origins: "*"
-      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
-      allowed-headers: "*"
-      allow-credentials: true
-
 jwt:
   secret: seekretsanta-super-secret-key-that-should-be-changed-in-production
   expiration: 86400000
