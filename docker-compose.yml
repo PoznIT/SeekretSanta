@@ -35,6 +35,22 @@ services:
       - backend
     networks:
       - seekretsanta-network
+
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - seekretsanta-network
+    ports:
+      - "80:80"
+      # Uncomment 443 after placing certs
+      # - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+
 volumes:
   postgres_data:
 

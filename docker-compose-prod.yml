@@ -31,7 +31,22 @@ services:
     networks:
       - seekretsanta-network
     environment:
-      NEXT_PUBLIC_API_URL: http://83.228.210.115:8080
+      NEXT_PUBLIC_API_URL: http://83.228.210.115
+
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - seekretsanta-network
+    ports:
+      - "80:80"
+      # Uncomment 443 after placing certs
+      # - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
 
 volumes:
   postgres_data:
