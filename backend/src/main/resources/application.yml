@@ -29,3 +29,8 @@ spring:
 jwt:
   secret: seekretsanta-super-secret-key-that-should-be-changed-in-production
   expiration: 86400000
+
+logging:
+  level:
+    org.springframework: DEBUG
+    com.seekretsanta: DEBUG
