@@ -1,4 +1,4 @@
-name: Build Release Template
+name: Deployment template
 
 on:
   workflow_call:
