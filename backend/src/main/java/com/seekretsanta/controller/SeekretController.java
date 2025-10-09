@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/seekrets")
-@CrossOrigin(origins = "http://localhost:3000")
 public class SeekretController {
 
     private final SeekretService seekretService;
