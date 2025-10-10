@@ -12,6 +12,11 @@ on:
         required: true
         type: string
         default: docker-compose.override.yml
+      nginx_folder:
+        description: folder on the server where nginx config is located
+        required: false
+        type: string
+        default: nginx
       deployment_folder:
         description: folder on the server to deploy to
         required: true
@@ -51,22 +56,13 @@ jobs:
               image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.frontend_app }}:${{ github.sha }}
           EOL
 
-      - name: Copy docker-compose.override file to server
+      - name: Copy files to server
         uses: appleboy/scp-action@v0.1.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: ${{ inputs.compose_override_file }}
-          target: "${{ inputs.deployment_folder }}/${{ github.event.repository.name }}/"
-
-      - name: Copy docker-compose file to server
-        uses: appleboy/scp-action@v0.1.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: ${{ inputs.compose_file }}
+          source: ${{ inputs.compose_override_file }}, ${{ inputs.compose_file }}, ${{inputs.nginx_folder }}/
           target: "${{ inputs.deployment_folder }}/${{ github.event.repository.name }}/"
 
       - name: Deploy via SSH
