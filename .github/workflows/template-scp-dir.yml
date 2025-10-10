@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            mkdir -p ~/${{ inputs.target_folder }}
+            mkdir -p ${{ inputs.target_folder }}
 
       - name: Add host key
         run: |
