@@ -65,8 +65,14 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: ${{ inputs.compose_override_file }}, ${{ inputs.compose_file }}, ${{inputs.nginx_folder }}/
+          source: ${{ inputs.compose_override_file }}, ${{ inputs.compose_file }}
           target: "${{ inputs.deployment_folder }}/${{ github.event.repository.name }}/"
+
+      - name: Scp nginx
+        uses: .github/workflows/template-scp-dir.yml
+        with:
+          source_folder: ${{ inputs.nginx_folder }}
+          target_folder: "${{ inputs.deployment_folder }}/${{ github.event.repository.name }}/${{ inputs.nginx_folder }}"
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
