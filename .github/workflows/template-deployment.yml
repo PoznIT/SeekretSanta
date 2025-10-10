@@ -69,7 +69,7 @@ jobs:
           target: "${{ inputs.deployment_folder }}/${{ github.event.repository.name }}/"
 
       - name: Scp nginx
-        uses: .github/workflows/template-scp-dir.yml
+        uses: ./.github/workflows/template-scp-dir.yml
         with:
           source_folder: ${{ inputs.nginx_folder }}
           target_folder: "${{ inputs.deployment_folder }}/${{ github.event.repository.name }}/${{ inputs.nginx_folder }}"
