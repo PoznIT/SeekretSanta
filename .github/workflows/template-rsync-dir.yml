@@ -1,4 +1,4 @@
-name: Scp directory
+name: Rsync directory
 on:
   workflow_call:
     inputs:
@@ -37,8 +37,8 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Copy folder
-        run: scp -r ${{ inputs.source_folder }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/${{ inputs.target_folder }}/
+      - name: Rsync folder
+        run: rsync -avz --delete ${{ inputs.source_folder }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/${{ inputs.target_folder }}/
 
       - name: Fix permissions
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "chmod -R 755 ~/${{ inputs.target_folder }}"
