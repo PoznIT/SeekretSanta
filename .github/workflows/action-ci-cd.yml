@@ -44,7 +44,7 @@ jobs:
 
   prepare_deploy:
     needs: [ frontend, backend ]
-    uses: .github/workflows/template-rsync-dir.yml
+    uses: ./.github/workflows/template-rsync-dir.yml
     with:
       source_folder: nginx
       target_folder: .deploy/${{ github.event.repository.name }}/nginx
