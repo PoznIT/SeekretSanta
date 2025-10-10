@@ -53,7 +53,7 @@ jobs:
           target_folder: .deploy/${{ github.event.repository.name }}/nginx
 
   deploy:
-    needs: [ backend, frontend ]
+    needs: [ prepare_deploy ]
     uses: ./.github/workflows/template-deployment.yml
     with:
       compose_file: docker-compose-prod.yml
