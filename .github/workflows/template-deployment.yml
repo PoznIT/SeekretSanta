@@ -56,9 +56,6 @@ jobs:
               image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.frontend_app }}:${{ github.sha }}
           EOL
 
-      - name: Fix permissions for nginx config
-        run: chmod -R a+r nginx/
-
       - name: Copy files to server
         uses: appleboy/scp-action@v0.1.3
         with:
@@ -67,12 +64,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: ${{ inputs.compose_override_file }}, ${{ inputs.compose_file }}
           target: "${{ inputs.deployment_folder }}/${{ github.event.repository.name }}/"
-
-      - name: Scp nginx
-        uses: ./.github/workflows/template-scp-dir.yml
-        with:
-          source_folder: ${{ inputs.nginx_folder }}
-          target_folder: "${{ inputs.deployment_folder }}/${{ github.event.repository.name }}/${{ inputs.nginx_folder }}"
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1

@@ -42,8 +42,18 @@ jobs:
       runner: ubuntu-24.04
     secrets: inherit
 
+  prepare_deploy:
+    runs-on: ubuntu-latest
+    needs: [ backend, frontend ]
+    steps:
+      - name: Copy nginx config
+        uses: ./.github/workflows/template-scp-dir.yml
+        with:
+          source_folder: nginx
+          target_folder: .deploy/${{ github.event.repository.name }}/nginx
+
   deploy:
-    needs: [backend, frontend]
+    needs: [ backend, frontend ]
     uses: ./.github/workflows/template-deployment.yml
     with:
       compose_file: docker-compose-prod.yml

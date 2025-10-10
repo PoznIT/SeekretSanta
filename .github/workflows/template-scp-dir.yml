@@ -29,3 +29,6 @@ jobs:
 
       - name: Copy folder
         run: scp -r ${{ inputs.source_folder }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/${{ inputs.target_folder }}/
+
+      - name: Fix permissions
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "chmod -R 755 ~/${{ inputs.target_folder }}"
