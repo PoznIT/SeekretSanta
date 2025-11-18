@@ -26,7 +26,7 @@ jobs:
           npx --yes package-lock-utd@1.x.x
   frontend:
     needs: frontend-validation
-    uses: ./.github/workflows/template-build-release.yml
+    uses: poznit/workflows/.github/workflows/template-build-release.yml@main
     with:
       working-directory: ./frontend
       app-name: seekretsanta-frontend
@@ -35,7 +35,7 @@ jobs:
 
   backend:
     needs: frontend-validation
-    uses: ./.github/workflows/template-build-release.yml
+    uses: poznit/workflows/.github/workflows/template-build-release.yml@main
     with:
       working-directory: ./backend
       app-name: seekretsanta-backend
@@ -44,7 +44,7 @@ jobs:
 
   prepare_deploy:
     needs: [ frontend, backend ]
-    uses: ./.github/workflows/template-rsync-dir.yml
+    uses: poznit/workflows/.github/workflows/template-rsync-dir.yml@main
     with:
       source_folder: nginx
       target_folder: .deploy/${{ github.event.repository.name }}/nginx
@@ -52,7 +52,7 @@ jobs:
 
   deploy:
     needs: [ prepare_deploy ]
-    uses: ./.github/workflows/template-deployment.yml
+    uses: poznit/workflows/.github/workflows/template-deployment.yml
     with:
       compose_file: docker-compose-prod.yml
       compose_override_file: docker-compose.override.yml
