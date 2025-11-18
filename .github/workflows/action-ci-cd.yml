@@ -67,9 +67,9 @@ jobs:
           cat > docker-compose.override.yml << EOL
           services:
             backend:
-              image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.backend_app }}:${{ github.sha }}
+              image: ${{ secrets.DOCKERHUB_USER }}/seekretsanta-backend:${{ github.sha }}
             frontend:
-              image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.frontend_app }}:${{ github.sha }}
+              image: ${{ secrets.DOCKERHUB_USER }}/seekretsanta-frontend:${{ github.sha }}
           EOL
       - name: deploy
         uses: poznit/workflows/.github/actions/deploy@main
