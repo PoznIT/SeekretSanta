@@ -52,7 +52,7 @@ jobs:
 
   deploy:
     needs: [ prepare_deploy ]
-    uses: poznit/workflows/.github/workflows/template-deployment.yml
+    uses: poznit/workflows/.github/workflows/template-deployment.yml@main
     with:
       compose_file: docker-compose-prod.yml
       compose_override_file: docker-compose.override.yml
