@@ -56,5 +56,11 @@ jobs:
     with:
       compose_file: docker-compose-prod.yml
       compose_override_file: docker-compose.override.yml
+      compose_override_content: |
+        services:
+          backend:
+            image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.backend_app }}:${{ github.sha }}
+          frontend:
+            image: ${{ secrets.DOCKERHUB_USER }}/${{ inputs.frontend_app }}:${{ github.sha }}
       deployment_folder: .deploy
     secrets: inherit
