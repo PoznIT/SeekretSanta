@@ -1,15 +1,16 @@
 package com.seekretsanta.service;
 
-import com.seekretsanta.dto.AuthResponse;
-import com.seekretsanta.dto.LoginRequest;
-import com.seekretsanta.dto.RegisterRequest;
-import com.seekretsanta.model.User;
-import com.seekretsanta.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.seekretsanta.dto.AuthResponse;
+import com.seekretsanta.dto.LoginRequest;
+import com.seekretsanta.dto.RegisterRequest;
+import com.seekretsanta.model.User;
+import com.seekretsanta.repository.UserRepository;
 
 @Service
 public class UserService {

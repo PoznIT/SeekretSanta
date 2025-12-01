@@ -1,10 +1,11 @@
 package com.seekretsanta.repository;
 
-import com.seekretsanta.model.Participant;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.seekretsanta.model.Participant;
 
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {

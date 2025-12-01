@@ -1,7 +1,8 @@
 package com.seekretsanta.dto;
 
-import lombok.Data;
 import java.util.List;
+
+import lombok.Data;
 
 
 @Data
