@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 import { authService, User } from '@/lib/auth';
 import { seekretService, Seekret } from '@/lib/seekret';
 

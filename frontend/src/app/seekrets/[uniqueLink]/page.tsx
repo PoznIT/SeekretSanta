@@ -1,11 +1,12 @@
 'use client';
 
-import {useEffect, useState} from 'react';
-import {useParams, useRouter} from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import {Seekret, seekretService} from '@/lib/seekret';
+import { useParams, useRouter } from 'next/navigation';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
-import {authService} from "@/lib/auth";
+
+import { Seekret, seekretService } from '@/lib/seekret';
+import { authService } from '@/lib/auth';
 
 export default function SeekretView() {
   const router = useRouter();

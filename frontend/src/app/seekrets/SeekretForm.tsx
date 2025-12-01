@@ -1,11 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import {Participant, CreateSeekretRequest, Seekret} from '@/lib/seekret';
-import {useState} from 'react';
-import {useRouter} from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import BackspaceRoundedIcon from '@mui/icons-material/BackspaceRounded';
-import {Switch} from "@mui/material";
+import { Switch } from '@mui/material';
+
+import {Participant, CreateSeekretRequest, Seekret} from '@/lib/seekret';
 
 
 type Props = {

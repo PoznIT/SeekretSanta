@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 import { authService, RegisterRequest } from '@/lib/auth';
 
 export default function Register() {
