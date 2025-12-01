@@ -1,12 +1,15 @@
 package com.seekretsanta.controller;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.seekretsanta.dto.AuthResponse;
 import com.seekretsanta.dto.LoginRequest;
 import com.seekretsanta.dto.RegisterRequest;
 import com.seekretsanta.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth") // removed leading /api because server.context-path already adds /api
