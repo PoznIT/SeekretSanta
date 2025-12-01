@@ -1,4 +1,4 @@
-[![CI/CD](https://github.com/pozniako16/SeekretSanta/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/pozniako16/SeekretSanta/actions/workflows/ci-cd.yml)
+[![CI/CD](https://github.com/PoznIT/SeekretSanta/actions/workflows/action-ci-cd.yml/badge.svg)](https://github.com/PoznIT/SeekretSanta/actions/workflows/action-ci-cd.yml)
 
 # SeekretSanta - Secret Santa Web Application
 
